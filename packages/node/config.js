@@ -1,0 +1,7 @@
+module.exports = {
+    aws: {
+        accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
+        secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+        region: 'us-west-2'
+    }
+}; 

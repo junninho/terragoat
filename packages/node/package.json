@@ -1,0 +1,11 @@
+{
+  "name": "vulnerable-app",
+  "version": "1.0.0",
+  "dependencies": {
+    "lodash": "4.17.4",
+    "express": "4.17.1",
+    "moment": "2.19.1",
+    "debug": "2.6.9",
+    "hoek": "4.2.0"
+  }
+} 
