@@ -32,15 +32,8 @@ resource "aws_iam_user_policy" "userpolicy" {
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": [
-        "*"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "BoolIfExists": {
-          "aws:MultiFactorAuthPresent": "true"
-        }
-      }
+      "Action": "*",
+      "Resource": "*"
     }
   ]
 }

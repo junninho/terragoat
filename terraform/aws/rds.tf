@@ -142,3 +142,19 @@ resource "aws_rds_cluster" "app9-rds-cluster" {
     yor_trace            = "a0c98536-c751-4743-92f1-a106ce750249"
   }
 }
+
+resource "aws_db_instance" "insecure_db" {
+  identifier           = "insecure-db-${var.environment}"
+  engine              = "mysql"
+  engine_version      = "5.7"
+  instance_class      = "db.t3.micro"
+  allocated_storage   = 20
+  storage_type        = "gp2"
+  username            = "admin"
+  password            = "password123"
+  publicly_accessible = true
+  skip_final_snapshot = true
+  backup_retention_period = 0
+  multi_az            = false
+  storage_encrypted   = false
+}

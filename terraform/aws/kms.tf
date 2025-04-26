@@ -19,3 +19,26 @@ resource "aws_kms_alias" "logs_key_alias" {
   name          = "alias/${local.resource_prefix.value}-logs-bucket-key"
   target_key_id = "${aws_kms_key.logs_key.key_id}"
 }
+
+resource "aws_kms_key" "insecure_key" {
+  description             = "Insecure KMS key"
+  deletion_window_in_days = 7
+  enable_key_rotation     = false
+  is_enabled             = true
+  key_usage              = "ENCRYPT_DECRYPT"
+  customer_master_key_spec = "SYMMETRIC_DEFAULT"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "Enable IAM User Permissions"
+        Effect = "Allow"
+        Principal = {
+          AWS = "*"
+        }
+        Action   = "kms:*"
+        Resource = "*"
+      }
+    ]
+  })
+}

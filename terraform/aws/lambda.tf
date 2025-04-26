@@ -57,3 +57,54 @@ resource "aws_lambda_function" "analysis_lambda" {
     yor_trace            = "f7d8bc47-e5d9-4b09-9d8f-e7b9724d826e"
   }
 }
+
+resource "aws_lambda_function" "insecure_lambda" {
+  filename         = "lambda_function.zip"
+  function_name    = "insecure-lambda-${var.environment}"
+  role            = aws_iam_role.lambda_role.arn
+  handler         = "index.handler"
+  runtime         = "nodejs14.x"
+  timeout         = 300
+  memory_size     = 128
+  publish         = true
+
+  environment {
+    variables = {
+      DB_PASSWORD = "password123"
+      API_KEY     = "secret-key-123"
+    }
+  }
+}
+
+resource "aws_iam_role" "lambda_role" {
+  name = "insecure-lambda-role-${var.environment}"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "lambda_policy" {
+  name = "insecure-lambda-policy-${var.environment}"
+  role = aws_iam_role.lambda_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = "*"
+        Resource = "*"
+      }
+    ]
+  })
+}
