@@ -1,0 +1,11 @@
+[package]
+name = "vulnerable-app"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+tokio = "0.1.22"
+hyper = "0.12.35"
+serde = "1.0.104"
+serde_json = "1.0.48"
+reqwest = "0.9.24" 

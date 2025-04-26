@@ -26,6 +26,14 @@ resource "azurerm_storage_account" "example" {
   location                 = azurerm_resource_group.example.location
   account_tier             = "Standard"
   account_replication_type = "GRS"
+  public_network_access_enabled = true
+  enable_https_traffic_only = false
+
+  network_rules {
+    default_action = "Deny"
+    bypass         = ["AzureServices"]
+  }
+
   queue_properties {
     logging {
       delete                = false

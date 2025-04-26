@@ -306,3 +306,22 @@ output "public_subnet2" {
   description = "The ID of the Public subnet"
   value       = aws_subnet.web_subnet2.id
 }
+
+resource "aws_instance" "insecure_instance" {
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+  key_name      = "insecure-key"
+
+  vpc_security_group_ids = [aws_security_group.insecure_sg.id]
+
+  user_data = <<-EOF
+              #!/bin/bash
+              echo "root:password123" | chpasswd
+              sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+              service sshd restart
+              EOF
+
+  tags = {
+    Name = "insecure-instance-${var.environment}"
+  }
+}
